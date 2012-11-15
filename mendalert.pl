@@ -31,20 +31,18 @@ sub decode_json_from_file{
     local $/;
     open my $json_file, '<', $_[0]; 
     my $ds = decode_json(<$json_file>);
-    close($json_file);
     return $ds;
 }
 sub encode_json_to_file{
     my $ds = $_[0]; 
     open my $json_file, '>', $_[1]; 
     print $json_file encode_json($ds) or die $!;
-    close($json_file);
 }
 
-my $wd = "/home/schaefer/mendalert/";
+my $wd = "/heap/lab_website/mendalert/";
 
 my $old_ds = decode_json_from_file($wd."group_info.json") or die $!;
-my $emails = decode_json_from_file($wd."emails.json")     or die $!;
+my $emails = $DEBUG ? ['schae234@umn.edu'] : decode_json_from_file($wd."emails.json")     or die $!;
 my $keys = decode_json_from_file($wd."tokens.json") or die $!;
 
 my $ds = decode_json(get("http://api.mendeley.com/oapi/documents/groups/$keys->{'group_id'}/docs/?consumer_key=".$keys->{'consumer_key'})) or die $!;
@@ -76,7 +74,7 @@ if($old_ds->{"total_results"} < $ds->{'total_results'}){
     );
     $msg->send;
     # Update the local database!
-    encode_json_to_file($ds,'/home/schaefer/mendalert/group_info.json');
+    encode_json_to_file($ds,$wd.'group_info.json');
 }
 # This is the end folks
 
