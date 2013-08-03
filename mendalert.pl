@@ -72,7 +72,7 @@ sub main{
         );
         print STDERR "Emailing ".join(", ", @$emails) if $VERBOSE;
         # Fetch the feed, its public. We might as well make it pretty
-        my $html = pQuery("http://www.mendeley.com/groups/2346321")
+        my $html = pQuery("http://www.mendeley.com/groups/$keys->{'group_id'}")
                             ->find("#group-overview-feed-block")
                             ->toHtml(); 
         # using regex to edit the html is naughty. but whatevs.
