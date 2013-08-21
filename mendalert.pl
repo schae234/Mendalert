@@ -26,7 +26,7 @@ BEGIN{
     );
 }
 
-my $DEBUG   = 1;
+my $DEBUG   = 0;
 my $VERBOSE = 0;
 my $FORCE   = 0;
 
